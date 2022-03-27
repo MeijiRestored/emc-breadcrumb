@@ -54,7 +54,8 @@ function startTrace(player) {
                   if (first === 1) {
                     first = 0;
                     var Icon = L.icon({
-                      iconUrl: "https://raw.githubusercontent.com/32Vache/emc-breadcrumb/main/assets/round.png",
+                      iconUrl:
+                        "https://raw.githubusercontent.com/32Vache/emc-breadcrumb/main/assets/round.png",
                       iconSize: [16, 16],
                       iconAnchor: [8, 8],
                     });
@@ -66,9 +67,29 @@ function startTrace(player) {
                     }).addTo(emcmap);
                     emcmap.fitBounds(polyline.getBounds());
                   } else {
+                    var le = polyline.getLatLngs().length;
+                    var prev = polyline.getLatLngs()[le - 1];
+                    console.log(prev);
+                    var dist = Math.sqrt(
+                      (coords[0] - prev["lat"]) ** 2 +
+                        (coords[1] - prev["lng"]) ** 2
+                    );
+                    if (dist > 100) {
+                      L.polyline([[prev["lat"], prev["lng"]], coords], {
+                        color: "red",
+                        opacity: 0.5,
+                        dashArray: "10, 10",
+                        dashOffset: "10",
+                      }).addTo(emcmap);
+                      polyline = L.polyline([coords, coords], {
+                        color: "red",
+                      }).addTo(emcmap);
+                    } else {
+                      polyline.addLatLng(coords);
+                    }
+
                     marker.setOpacity(1);
                     marker.setLatLng(coords);
-                    polyline.addLatLng(coords);
                     emcmap.panTo(coords);
                   }
                 }
