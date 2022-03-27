@@ -1,0 +1,109 @@
+<html>
+  <head>
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      http-equiv="content-type"
+      content="text/html; charset=utf-8"
+      lang="en"
+    />
+    <meta content="EMC Breadcrumb" property="og:title" />
+    <meta
+      content="Trace your player movement on EarthMC's Map!"
+      property="og:description"
+    />
+    <meta content="#43B581" data-react-helmet="true" name="theme-color" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:title" content="EMC Breadcrumb" />
+    <meta
+      name="twitter:description"
+      content="Trace your player movement on EarthMC's Map!"
+    />
+
+    <link rel="stylesheet" href="css/main.css" />
+    <script src="js/leaflet.js"></script>
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+      integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+      crossorigin=""
+    />
+
+    <script
+      type="text/javascript"
+      src="https://code.jquery.com/jquery-latest.js"
+    ></script>
+    <title>EMC Map Chunk Grid</title>
+  </head>
+  <body>
+    <div id="map">
+      <div id="IGN">
+        <span id="title">Please input your IGN (or /nick if you have one)</span
+        ><br /><input type="text" id="name" name="name" /><button
+          id="OK"
+          onclick="start()"
+        >
+          OK
+        </button>
+      </div>
+      <div id="status"></div>
+    </div>
+    <script>
+      var emcmap = L.map("map", {
+        crs: L.CRS.Simple,
+      }).setView([0, 0], -4);
+
+      // EMC background tiles
+      L.tileLayer(
+        "https://earthmc.net/map/tiles/earth/flat/0_0/zzzzz_{x1}_{y1}.png",
+        {
+          maxZoom: -4,
+          minZoom: -4,
+          tileSize: 128,
+        }
+      ).addTo(emcmap);
+      L.tileLayer(
+        "https://earthmc.net/map/tiles/earth/flat/0_0/zzzz_{x2}_{y2}.png",
+        {
+          maxZoom: -3,
+          minZoom: -3,
+          tileSize: 128,
+        }
+      ).addTo(emcmap);
+      L.tileLayer(
+        "https://earthmc.net/map/tiles/earth/flat/0_0/zzz_{x3}_{y3}.png",
+        {
+          maxZoom: -2,
+          minZoom: -2,
+          tileSize: 128,
+        }
+      ).addTo(emcmap);
+      L.tileLayer(
+        "https://earthmc.net/map/tiles/earth/flat/0_0/zz_{x4}_{y4}.png",
+        {
+          maxZoom: -1,
+          minZoom: -1,
+          tileSize: 128,
+        }
+      ).addTo(emcmap);
+      L.tileLayer(
+        "https://earthmc.net/map/tiles/earth/flat/0_0/z_{x5}_{y5}.png",
+        {
+          maxZoom: 0,
+          minZoom: 0,
+          tileSize: 128,
+        }
+      ).addTo(emcmap);
+      L.tileLayer("https://earthmc.net/map/tiles/earth/flat/0_0/{x}_{y6}.png", {
+        maxZoom: 2,
+        maxNativeZoom: 1,
+        minZoom: 1,
+        tileSize: 128,
+      }).addTo(emcmap);
+    </script>
+    <script type="text/javascript" src="js/main.js"></script>
+  </body>
+</html>
