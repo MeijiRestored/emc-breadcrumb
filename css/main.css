@@ -32,3 +32,16 @@ body {
   background-color: #ffffff;
   font-size: 14pt;
 }
+
+#speed {
+  position: fixed;
+  padding: 4px;
+  bottom: 0px;
+  left: 0px;
+  height: auto;
+  width: auto;
+  z-index: 9999;
+  text-align: center;
+  background-color: #ffffff;
+  font-size: 10pt;
+}

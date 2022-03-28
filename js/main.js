@@ -1,7 +1,8 @@
-var polyline = null;
 var marker = null;
 var first = 1;
 var run = 1;
+var prevT = Date.now();
+var prev = [0, 0];
 /**
  * Start following the player.
  * @param {String} player IGN of player to follow.
@@ -62,30 +63,46 @@ function startTrace(player) {
                     marker = L.marker(coords, {
                       icon: Icon,
                     }).addTo(emcmap);
-                    polyline = L.polyline([coords, coords], {
-                      color: "red",
-                    }).addTo(emcmap);
-                    emcmap.fitBounds(polyline.getBounds());
+                    prev = coords;
+                    prevT = Date.now();
+                    emcmap.panTo(coords);
                   } else {
-                    var le = polyline.getLatLngs().length;
-                    var prev = polyline.getLatLngs()[le - 1];
-                    console.log(prev);
                     var dist = Math.sqrt(
-                      (coords[0] - prev["lat"]) ** 2 +
-                        (coords[1] - prev["lng"]) ** 2
+                      (coords[0] - prev[0]) ** 2 + (coords[1] - prev[1]) ** 2
                     );
                     if (dist > 100) {
-                      L.polyline([[prev["lat"], prev["lng"]], coords], {
+                      L.polyline([[prev[0], prev[1]], coords], {
                         color: "red",
                         opacity: 0.5,
                         dashArray: "10, 10",
                         dashOffset: "10",
                       }).addTo(emcmap);
-                      polyline = L.polyline([coords, coords], {
-                        color: "red",
-                      }).addTo(emcmap);
+                      prev = coords;
+                      prevT = Date.now();
                     } else {
-                      polyline.addLatLng(coords);
+                      var color = "#FF0000";
+                      var speed = dist / (Date.now() - prevT);
+                      speed = speed * 1000;
+                      if (speed < 1) {
+                        color = "#FF0000";
+                      } else if (speed < 4) {
+                        color = "#FF6600";
+                      } else if (speed < 7) {
+                        color = "#FFFF00";
+                      } else if (speed < 12) {
+                        color = "#99FF00";
+                      } else if (speed < 15) {
+                        color = "#00FF00";
+                      } else if (speed < 20) {
+                        color = "#0066FF";
+                      } else {
+                        color = "#0000FF";
+                      }
+                      L.polyline([[prev[0], prev[1]], coords], {
+                        color: color,
+                      }).addTo(emcmap);
+                      prev = coords;
+                      prevT = Date.now();
                     }
 
                     marker.setOpacity(1);
@@ -146,6 +163,8 @@ function start() {
           if (name == Cplayer) {
             found = 1;
             $("#IGN").hide();
+            document.getElementById("speed").innerHTML =
+              '<div style="display: flex"><div style="flex-wrap: flex; margin-right: 8px">Speed</div><div style="flex-wrap: flex; margin-right:4px"><i>Slow</i></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #FF0000\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #FF6600\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #FFFF00\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #99FF00\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #00FF00\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #0066FF\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #0000FF\"></div><div style="flex-wrap: flex; margin-left:4px"><i>Fast</i></div></div>';
             startTrace(name);
           }
         }
