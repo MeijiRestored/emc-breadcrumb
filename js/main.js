@@ -3,6 +3,11 @@ var first = 1;
 var run = 1;
 var prevT = Date.now();
 var prev = [0, 0];
+
+$(document).ready(function () {
+  document.getElementById("name").value = localStorage.getItem("ign");
+});
+
 /**
  * Start following the player.
  * @param {String} player IGN of player to follow.
@@ -164,7 +169,8 @@ function start() {
             found = 1;
             $("#IGN").hide();
             document.getElementById("speed").innerHTML =
-              '<div style="display: flex"><div style="flex-wrap: flex; margin-right: 8px">Speed</div><div style="flex-wrap: flex; margin-right:4px"><i>Slow</i></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #FF0000\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #FF6600\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #FFFF00\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #99FF00\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #00FF00\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #0066FF\"></div><div style=\"flex-wrap: flex; height: 20px; width: 30px; background-color: #0000FF\"></div><div style="flex-wrap: flex; margin-left:4px"><i>Fast</i></div></div>';
+              '<div style="display: flex"><div style="flex-wrap: flex; margin-right: 8px">Speed</div><div style="flex-wrap: flex; margin-right:4px"><i>Slow</i></div><div style="flex-wrap: flex; height: 20px; width: 30px; background-color: #FF0000"></div><div style="flex-wrap: flex; height: 20px; width: 30px; background-color: #FF6600"></div><div style="flex-wrap: flex; height: 20px; width: 30px; background-color: #FFFF00"></div><div style="flex-wrap: flex; height: 20px; width: 30px; background-color: #99FF00"></div><div style="flex-wrap: flex; height: 20px; width: 30px; background-color: #00FF00"></div><div style="flex-wrap: flex; height: 20px; width: 30px; background-color: #0066FF"></div><div style="flex-wrap: flex; height: 20px; width: 30px; background-color: #0000FF"></div><div style="flex-wrap: flex; margin-left:4px"><i>Fast</i></div></div>';
+            localStorage.setItem("ign", name);
             startTrace(name);
           }
         }
