@@ -84,6 +84,11 @@ function startTrace(player) {
                       }).addTo(emcmap);
                       prev = coords;
                       prevT = Date.now();
+                      marker.setLatLng(coords);
+                      emcmap.panTo(coords);
+                    } else if (dist === 0) {
+                      prev = coords;
+                      prevT = Date.now();
                     } else {
                       var color = "#FF0000";
                       var speed = dist / (Date.now() - prevT);
@@ -108,11 +113,11 @@ function startTrace(player) {
                       }).addTo(emcmap);
                       prev = coords;
                       prevT = Date.now();
+                      marker.setLatLng(coords);
+                      emcmap.panTo(coords);
                     }
 
                     marker.setOpacity(1);
-                    marker.setLatLng(coords);
-                    emcmap.panTo(coords);
                   }
                 }
                 break;
