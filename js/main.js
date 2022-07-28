@@ -17,7 +17,7 @@ function startTrace(player) {
   setInterval(function () {
     if (run === 1) {
       var found = 0;
-      var URL = `https://emc-color.herokuapp.com/update.json`;
+      var URL = `https://emc-color.herokuapp.com/update_ta.json`;
       var res = {};
       fetch(URL, {
         method: "GET",
@@ -145,7 +145,7 @@ function startTrace(player) {
 function start() {
   var found = 0;
   var name = document.getElementById("name").value;
-  var URL = `https://emc-color.herokuapp.com/update.json`;
+  var URL = `https://emc-color.herokuapp.com/update_ta.json`;
   var res = {};
   fetch(URL, {
     method: "GET",
