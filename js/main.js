@@ -60,7 +60,10 @@ function startTrace(player) {
                   var coordsnearest = [0, 0];
                   var nearestplayer = "None";
                   for (let j in data["players"]) {
-                    if (player != data["players"][j]["name"]) {
+                    if (
+                      player != data["players"][j]["name"] &&
+                      data["players"][j]["world"] != "-some-other-bogus-world-"
+                    ) {
                       var coordst = [
                         -data["players"][j]["z"] - 64,
                         data["players"][j]["x"],
@@ -130,6 +133,7 @@ function startTrace(player) {
                       prev = coords;
                       prevT = Date.now();
                       marker.setLatLng(coords);
+                      marker_red.setLatLng(coordsnearest);
                       emcmap.panTo(coords);
                     } else if (dist === 0) {
                       prev = coords;
@@ -159,6 +163,7 @@ function startTrace(player) {
                       prev = coords;
                       prevT = Date.now();
                       marker.setLatLng(coords);
+                      marker_red.setLatLng(coordsnearest);
                       emcmap.panTo(coords);
                     }
 
