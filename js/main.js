@@ -55,8 +55,44 @@ function startTrace(player) {
                     marker.setOpacity(0.5);
                   }
                 } else {
-                  document.getElementById("status").innerHTML =
-                    'Status<br><font color="#22ff00">Visible</font>';
+                  // Find nearest player
+                  var distnearest = 999999;
+                  var coordsnearest = [0, 0];
+                  var nearestplayer = "None";
+                  for (let j in data["players"]) {
+                    if (player != data["players"][j]["name"]) {
+                      var coordst = [
+                        -data["players"][j]["z"] - 64,
+                        data["players"][j]["x"],
+                      ];
+                      var distt = Math.sqrt(
+                        (coords[0] - coordst[0]) ** 2 +
+                          (coords[1] - coordst[1]) ** 2
+                      );
+                      if (distt < distnearest) {
+                        distnearest = distt;
+                        coordsnearest = coordst;
+                        nearestplayer = data["players"][j]["name"];
+                      }
+                    }
+                  }
+                  var nearestcolor = "#44EE11";
+                  if (distnearest < 32) {
+                    nearestcolor = "#FF0000";
+                  } else if (distnearest < 64) {
+                    nearestcolor = "#FF6600";
+                  } else if (distnearest < 128) {
+                    nearestcolor = "#FFFF00";
+                  } else if (distnearest < 256) {
+                    nearestcolor = "#99FF00";
+                  } else {
+                    nearestcolor = "#44EE11";
+                  }
+                  document.getElementById(
+                    "status"
+                  ).innerHTML = `Status<br><font color="#22ff00">Visible</font><br>Nearest player:<br/>${nearestplayer} (<font color="#${nearestcolor}">${Math.round(
+                    distnearest
+                  )}</font>m)`;
                   if (first === 1) {
                     first = 0;
                     var Icon = L.icon({
@@ -65,8 +101,17 @@ function startTrace(player) {
                       iconSize: [16, 16],
                       iconAnchor: [8, 8],
                     });
-                    marker = L.marker(coords, {
+                    var IconRed = L.icon({
+                      iconUrl:
+                        "https://raw.githubusercontent.com/32Vache/emc-breadcrumb/main/assets/round_red.png",
+                      iconSize: [16, 16],
+                      iconAnchor: [8, 8],
+                    });
+                    marker = L.marker(coordsnearest, {
                       icon: Icon,
+                    }).addTo(emcmap);
+                    marker_red = L.marker(coordsnearest, {
+                      icon: IconRed,
                     }).addTo(emcmap);
                     prev = coords;
                     prevT = Date.now();
